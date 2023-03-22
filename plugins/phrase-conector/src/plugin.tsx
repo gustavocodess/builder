@@ -34,6 +34,10 @@ registerPlugin(
       ...(appState.user.isBuilderAdmin
         ? [
             {
+              name: 'privateKey',
+              type: 'string',
+            },
+            {
               name: 'callbackHost',
               type: 'string',
             },
@@ -48,7 +52,7 @@ registerPlugin(
     noPreviewTypes: true,
   },
   async settings => {
-    const api = new Phrase(settings.get('apiHost'));
+    const api = new Phrase(settings.get('apiHost'), settings.get('privateKey'));
     registerEditorOnLoad(({ safeReaction }) => {
       safeReaction(
         () => {

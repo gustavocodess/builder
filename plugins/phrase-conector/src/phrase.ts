@@ -21,13 +21,16 @@ export class Phrase {
     baseUrl.search = params.toString();
     return baseUrl.toString();
   }
-  constructor(private apiHost?: string) {
+  constructor(private apiHost?: string, privateKey?: string) {
+    this.privateKey = privateKey
     this.loaded = new Promise(resolve => (this.resolveLoaded = resolve));
     this.init();
   }
 
   async init() {
-    this.privateKey = await appState.globalState.getPluginPrivateKey(pkg.name);
+    if (!this.privateKey) {
+      this.privateKey = await appState.globalState.getPluginPrivateKey(pkg.name);
+    }
     if (this.privateKey) {
       this.resolveLoaded!();
     }
